@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTheme } from '../features/theme';
+import { useAuth } from '../features/auth';
 import { useSubscription } from '../features/subscription';
 import { Spinner } from '../shared/ui/spinner';
 import '../shared/styles/index.css';
@@ -10,7 +11,25 @@ interface SettingsPageProps {
 
 const SettingsPage: React.FC<SettingsPageProps> = ({ navigateTo }) => {
   const { theme, toggleTheme } = useTheme();
-  const { allSymbols, toggleSubscription, isSubscribed, isLoading, error } = useSubscription();
+  const { utipToken, acsToken } = useAuth();
+  const token = utipToken || acsToken || null;
+  const { allSymbols, toggleSubscription, isSubscribed, isLoading, error } = useSubscription(token);
+
+  // Мемоизированная сортировка для оптимизации производительности
+  const sortedSymbols = useMemo(() => {
+    try {
+      return [...allSymbols].sort((a, b) => {
+        const aSubscribed = isSubscribed(a.Symbol);
+        const bSubscribed = isSubscribed(b.Symbol);
+        if (aSubscribed && !bSubscribed) return -1;
+        if (!aSubscribed && bSubscribed) return 1;
+        return (a.Symbol || '').localeCompare(b.Symbol || '');
+      });
+    } catch (error) {
+      console.error('Error sorting symbols:', error);
+      return allSymbols;
+    }
+  }, [allSymbols, isSubscribed]);
 
   return (
     <div className="menuBackground">
@@ -49,6 +68,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ navigateTo }) => {
               <button
                 onClick={toggleTheme}
                 className="subscribeButton"
+                aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
                 style={{ 
                   minWidth: 'auto', 
                   padding: '6px 12px',
@@ -86,42 +106,47 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ navigateTo }) => {
                   <p style={{ margin: 0 }}>{error}</p>
                 </div>
               )}
-              {!isLoading && !error && (
-                <div className="symbolList">
-                  {[...allSymbols]
-                    .sort((a, b) => {
-                      const aSubscribed = isSubscribed(a.Symbol);
-                      const bSubscribed = isSubscribed(b.Symbol);
-                      if (aSubscribed && !bSubscribed) return -1;
-                      if (!aSubscribed && bSubscribed) return 1;
-                      return a.Symbol.localeCompare(b.Symbol);
-                    })
-                    .map(symbol => (
+              {!isLoading && !error && sortedSymbols.length === 0 && (
+                <div style={{ padding: '20px', textAlign: 'center', color: '#FFFFFF' }}>
+                  No symbols available
+                </div>
+              )}
+              {!isLoading && !error && sortedSymbols.length > 0 && (
+                <div className="symbolList" aria-busy={isLoading} aria-live="polite">
+                  {sortedSymbols.map(symbol => {
+                    // Вычисляем статус подписки один раз для оптимизации
+                    const subscribed = isSubscribed(symbol.Symbol);
+                    const symbolName = symbol.Symbol || '';
+                    const description = symbol.Description || 'No description';
+
+                    return (
                       <div key={symbol.Symbol} className="symbolItem" style={{
                         backgroundColor: 'rgba(255, 255, 255, 0.05)',
                         borderBottom: '1px solid rgba(167, 174, 232, 0.2)'
                       }}>
                         <div className="symbolItemInfo">
-                          <p style={{ color: '#FFFFFF', fontWeight: 500 }}>{symbol.Symbol}</p>
-                          <p style={{ color: 'rgba(167, 174, 232, 0.8)' }}>{symbol.Description || 'No description'}</p>
+                          <p style={{ color: '#FFFFFF', fontWeight: 500 }}>{symbolName}</p>
+                          <p style={{ color: 'rgba(167, 174, 232, 0.8)' }}>{description}</p>
                         </div>
                         <button
                           onClick={() => toggleSubscription(symbol.Symbol)}
-                          className={`subscribeButton ${isSubscribed(symbol.Symbol) ? 'subscribed' : ''}`}
+                          className={`subscribeButton ${subscribed ? 'subscribed' : ''}`}
+                          aria-label={subscribed ? `Unsubscribe from ${symbolName}` : `Subscribe to ${symbolName}`}
                           style={{
-                            backgroundColor: isSubscribed(symbol.Symbol) 
+                            backgroundColor: subscribed 
                               ? '#5DBA40' 
                               : 'rgba(255, 255, 255, 0.2)',
                             color: '#FFFFFF',
-                            border: isSubscribed(symbol.Symbol) 
+                            border: subscribed 
                               ? 'none' 
                               : '1px solid rgba(255, 255, 255, 0.3)'
                           }}
                         >
-                          {isSubscribed(symbol.Symbol) ? 'Subscribed' : 'Subscribe'}
+                          {subscribed ? 'Subscribed' : 'Subscribe'}
                         </button>
                       </div>
-                    ))}
+                    );
+                  })}
                 </div>
               )}
             </div>
