@@ -1,0 +1,930 @@
+/* Точная копия стилей из mobileTradersRoom-master для мобильной версии */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap');
+
+/* Цветовая схема default - точные значения из theme_default.less */
+:root {
+  --font-family-name: 'Roboto', Sans-Serif;
+  --body-background-color-from: #563A7F;
+  --body-background-color-to: #3F499D;
+  --body-font: 15px var(--font-family-name);
+  --body-font-color: #000000;
+  --button-background-color: #5dba40;
+  --tab-background-color: #5F62A7;
+  --button-border-color: #8B7DAC;
+  --defaultInput-width: 184px;
+  --defaultInput-font-color: #FFFFFF;
+  --defaultInput-border: solid 1px #E4E2E7;
+  --defaultInput-font-size: 17px;
+  --mdInputContainer-font-color: #A7AEE8;
+  --wrapper-background-color: #FFFFFF;
+  --header-font-color: #c2c3ce;
+  --block-font-color: #000000;
+  --block-font-size: 15px;
+  --block-a-font-color: #277dd3;
+  --content-font-size: 15px;
+  --content-background-color: #FFFFFF;
+  --topContent-font-color: #FFFFFF;
+  --label-font-color: #A7AEE8;
+  --grayLabel-font-color: #8c8c8c;
+  --bigValue-font-size: 25px;
+  --menuButton-font-color: #277dd3;
+  --youMessage-font-color: #FF782E;
+  --otherMessage-background-color: #EBECEE;
+  --title-font-size: 18px;
+  --message-font-size: 14px;
+  --message-background-color: #5F62A7;
+  --message-font-color: #FFFFFF;
+  --contentGray-background-color: rgba(192,184,184,.5);
+  --default-button-background-color: #FF782E;
+  --checkbox-checked-background-color: #FF782E;
+  --invalid-color: #FF0000;
+  --button-background-disabled: #A45D5F;
+  --button-color-disabled: #A4A0C7;
+  --inDeep-color: #9E9E9E;
+  --svg-background-color: #A7AEE8;
+  --statusContainer-background-color-from: #6560a8;
+  --statusContainer-background-color-to: #525ba7;
+  --statusContainer-box-shadow-color: #494579;
+  --statusLine-background: #7476c5;
+  --label-font-size: 16px;
+  --input-font-size: 16px;
+  --partition-title-font-color: #C2C2C2;
+  --accent-background-color: #eb4444;
+  --warning-background-color: #FFA000;
+  --primary-background-color: #5dba40;
+  --info-background-color: #00bcd4;
+  --general-menu-primary-color: #A7AEE8;
+  --general-menu-close-button-color: #717989;
+  --general-menu-divider-color: rgba(167, 174, 232, 0.3);
+  --verification-status-gray: #ADB1BE;
+  --content-font-color-gray: #909297;
+  --red-color: #ff4747;
+  --ticket-color-1: #374254;
+  --logoColor: #CFB2FF;
+}
+
+html, body {
+  height: 100%;
+  -webkit-text-size-adjust: none;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font: var(--body-font);
+  color: var(--body-font-color);
+}
+
+.bodyBackgroundGradient {
+  background: linear-gradient(var(--body-background-color-from), var(--body-background-color-to));
+}
+
+.mountains {
+  background-image: url(/images/mountains.svg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: bottom;
+}
+
+.mountainsLow {
+  background-image: url(/images/mountains_low.svg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: bottom;
+}
+
+/* ========== AUTH PAGE ========== */
+.authPage,
+.forgotPasswordPage,
+.registrationPage,
+.blockedCountryPage {
+  background: linear-gradient(var(--body-background-color-from), var(--body-background-color-to));
+  height: 100vh;
+  width: 100%;
+}
+
+.authPage .mainForm {
+  height: calc(100% - 100px);
+}
+
+.mainForm,
+.preloading {
+  background-image: url(/images/mountains.svg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: bottom;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mainLogo {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mainLogo .logotip {
+  min-height: 56px;
+  min-width: 112px;
+  width: 112px;
+  height: auto;
+  margin-top: 27px;
+}
+
+.mainLogo .logotip img {
+  width: 100%;
+}
+
+.mainLogo .logotipLabel {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.3px;
+  margin-top: 10px;
+}
+
+.authFormContainer {
+  padding: 0 20px;
+  width: 100%;
+  position: relative;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.authFormContainer a {
+  color: var(--topContent-font-color);
+  font-size: 14px;
+  outline: none;
+  text-decoration: none;
+}
+
+.authFormContainer .pageTitle {
+  background-color: inherit;
+  font-size: var(--title-font-size);
+  text-align: center;
+  letter-spacing: 0.3px;
+  color: var(--topContent-font-color);
+  margin-bottom: 0;
+}
+
+.authFormContainer .forgetPasswordLink,
+.authFormContainer .registrationLink,
+.authFormContainer .guestLink {
+  font-size: 14px;
+}
+
+.authFormContainer .forgetPasswordLink {
+  text-align: left;
+  margin-top: 15px;
+  width: 100%;
+}
+
+.authFormContainer .registrationLink {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.authFormContainer .guestLink {
+  margin-top: 35px;
+}
+
+.authFormContainer .guestLink a {
+  outline: none;
+  text-decoration: underline;
+}
+
+/* Input стили - эмуляция md-input-container */
+.authFormContainer .input-wrapper {
+  width: 100%;
+  margin-top: 35px;
+  margin-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+  position: relative;
+}
+
+.authFormContainer .input-wrapper label {
+  width: auto;
+  padding-left: 0;
+  font-size: 15px;
+  top: -23px;
+  letter-spacing: 0.3px;
+  color: var(--mdInputContainer-font-color);
+  position: absolute;
+  pointer-events: none;
+  transition: all 0.3s;
+}
+
+.authFormContainer .input-wrapper input {
+  width: 100%;
+  background: none;
+  color: var(--defaultInput-font-color);
+  font-size: var(--defaultInput-font-size);
+  border: none;
+  border-bottom: var(--defaultInput-border);
+  padding: 10px 0 5px 0;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.authFormContainer .input-wrapper input:focus {
+  border-bottom-color: var(--mdInputContainer-font-color);
+}
+
+.authFormContainer .input-wrapper input:focus + label,
+.authFormContainer .input-wrapper input:not(:placeholder-shown) + label {
+  top: -23px;
+  font-size: 12px;
+  color: var(--mdInputContainer-font-color);
+}
+
+.authFormContainer .input-wrapper input::placeholder {
+  color: transparent;
+}
+
+.authFormContainer .input-wrapper input:-webkit-autofill,
+.authFormContainer .input-wrapper input:-webkit-autofill:hover,
+.authFormContainer .input-wrapper input:-webkit-autofill:focus,
+.authFormContainer .input-wrapper input:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--defaultInput-font-color);
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Button стили */
+.button {
+  font-size: var(--content-font-size);
+  background-color: rgba(255,255,255, 0.15);
+  border: 1px solid var(--button-border-color) !important;
+  color: #fff;
+  border-radius: 100px;
+  min-width: 250px;
+  min-height: 48px;
+  margin: 10px 0 15px;
+  text-transform: none;
+  outline: 0;
+  cursor: pointer;
+  font-family: var(--font-family-name);
+  box-sizing: border-box;
+}
+
+.loginButton {
+  background-color: var(--default-button-background-color);
+  border-width: 0 !important;
+  min-width: 230px;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 35px;
+  height: 50px;
+  font-size: 16px;
+}
+
+.loginButton:hover:not(:disabled),
+.loginButton:focus:not(:disabled) {
+  background-color: var(--default-button-background-color);
+}
+
+.loginButton:disabled {
+  background-color: var(--button-background-disabled);
+  color: var(--button-color-disabled);
+  cursor: not-allowed;
+}
+
+/* Media queries для authPage */
+@media (max-height: 800px) {
+  .authPage .authFormContainer {
+    top: 7px;
+  }
+}
+
+@media (min-height: 800px) {
+  .authPage .authFormContainer {
+    top: -49px;
+  }
+  .authPage .authFormContainer.hasGuestLink {
+    top: -22px;
+  }
+}
+
+/* ========== MENU BACKGROUND (авторизованные страницы) ========== */
+.menuBackground {
+  background: linear-gradient(to bottom, var(--body-background-color-from) 0%, var(--body-background-color-to) 30%, var(--body-background-color-to) 100%);
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.menuBackground .mountains {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  color: var(--topContent-font-color);
+  text-align: center;
+  height: 48px;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--general-menu-divider-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.header .userMenuImage {
+  height: 18px;
+  padding: 15px;
+  min-height: auto;
+  position: absolute;
+  left: 0;
+  top: 0;
+  cursor: pointer;
+}
+
+.header .left {
+  float: left;
+}
+
+.header .right {
+  float: right;
+}
+
+/* Title */
+.title {
+  font-size: 16px;
+  color: var(--topContent-font-color);
+  text-align: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--general-menu-divider-color);
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Scrollable Div */
+.scrollableDiv {
+  height: calc(100vh - 50px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scrollableDiv .innerScrollableDiv {
+  flex-grow: 1;
+}
+
+.scrollableDiv .tableBackground {
+  background-color: white;
+  flex-grow: 1;
+}
+
+/* Form Background */
+.formBackground {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.paddingMenu {
+  padding: 20px 15px;
+  margin: 0;
+  list-style: none;
+}
+
+/* Top Content */
+.topContent {
+  font-size: var(--content-font-size);
+  color: var(--topContent-font-color);
+  overflow: hidden;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 15px;
+}
+
+.topContent .mountains {
+  background-image: url(/images/mountains.svg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: bottom;
+}
+
+.topContent .mountainsLow {
+  background-image: url(/images/mountains_low.svg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: bottom;
+}
+
+.topContent.mountainsLow {
+  background-image: url(/images/mountains_low.svg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: bottom;
+}
+
+.titleSettings {
+  font-size: var(--title-font-size);
+  color: var(--topContent-font-color);
+  text-align: center;
+}
+
+/* Global Row Setting */
+.globalRowSetting {
+  color: var(--body-font-color);
+  background-color: var(--content-background-color);
+  font-size: var(--label-font-size);
+}
+
+.rowSetting {
+  padding: 20px 20px;
+  border-bottom: var(--defaultInput-border);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--content-background-color);
+  position: relative;
+}
+
+.rowSetting:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.rowSetting .inDeep {
+  border-style: solid;
+  border-width: 2px 2px 0 0;
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+  border-color: var(--inDeep-color);
+  margin: 5px 10px;
+  flex-shrink: 0;
+}
+
+.rowSetting .settingValue {
+  color: var(--grayLabel-font-color);
+  margin-right: 10px;
+}
+
+.rowSetting .floatRight {
+  float: right;
+  color: var(--grayLabel-font-color);
+}
+
+/* Account Item */
+.accountItem {
+  min-height: 81px;
+  height: auto;
+  border: 1px solid var(--general-menu-divider-color);
+  border-radius: 4px;
+  padding: 14px;
+  margin-bottom: 15px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--topContent-font-color);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: background-color 0.2s;
+}
+
+.accountItem:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.bigValue {
+  font-size: var(--bigValue-font-size);
+  font-weight: 500;
+  color: var(--topContent-font-color);
+  padding: 0;
+  line-height: 1.2;
+}
+
+.serverAccount {
+  margin-top: 7px;
+  font-size: 12px;
+  color: var(--general-menu-primary-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 1.4;
+}
+
+.accountNumber {
+  margin-right: 10px;
+}
+
+.accountGroup {
+  padding-left: 10px;
+  opacity: 0.8;
+}
+
+.accountViewIcon {
+  outline: none;
+}
+
+.accountViewIcon svg {
+  fill: var(--label-font-color);
+  width: 16px;
+  height: 16px;
+}
+
+/* Footer Button */
+.footerButton {
+  min-height: 100px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.footerButton .stubMessage {
+  width: 300px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 18.75px;
+  text-align: center;
+  margin-bottom: 16px;
+  color: var(--topContent-font-color);
+}
+
+.footerButton .stubMessage div {
+  margin-bottom: 4px;
+}
+
+.footerButton button {
+  margin: 0;
+}
+
+/* Content Table */
+.contentTable {
+  background-color: var(--content-background-color);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0 15px;
+}
+
+.contentTable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.contentTable thead {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.contentTable th {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--grayLabel-font-color);
+  border-bottom: 1px solid var(--contentGray-background-color);
+}
+
+.contentTable td {
+  padding: 12px 15px;
+  font-size: var(--content-font-size);
+  color: var(--body-font-color);
+  border-bottom: 1px solid var(--contentGray-background-color);
+}
+
+.contentTable tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Filter Input */
+.filterInput {
+  width: 100%;
+  max-width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--topContent-font-color);
+  font-size: var(--input-font-size);
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 5px;
+  outline: none;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.filterInput::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.filterInput:focus {
+  border-bottom-color: var(--mdInputContainer-font-color);
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: var(--topContent-font-color);
+  margin: 0 15px;
+}
+
+.emptyState p {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: var(--topContent-font-color);
+}
+
+.emptyState .button {
+  margin-top: 15px;
+  min-width: 200px;
+}
+
+/* Error/Warning Messages */
+.errorMessage {
+  background-color: rgba(235, 68, 68, 0.1);
+  border: 1px solid var(--accent-background-color);
+  color: var(--accent-background-color);
+  padding: 12px;
+  border-radius: 4px;
+  margin: 15px 20px;
+  font-size: 14px;
+}
+
+.warningMessage {
+  background-color: rgba(255, 160, 0, 0.1);
+  border: 1px solid var(--warning-background-color);
+  color: var(--warning-background-color);
+  padding: 12px;
+  border-radius: 4px;
+  margin: 15px 20px;
+  font-size: 14px;
+}
+
+/* Settings Container */
+.settingsContainer {
+  background-color: var(--content-background-color);
+  border-radius: 4px;
+  padding: 0;
+  margin: 0;
+}
+
+.settingsSection {
+  margin-bottom: 0;
+}
+
+.settingsSection h2 {
+  font-size: var(--title-font-size);
+  font-weight: 500;
+  margin: 0;
+  padding: 20px 20px 10px;
+  color: var(--body-font-color);
+}
+
+.symbolList {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 0 20px 20px;
+}
+
+.symbolItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.symbolItemInfo {
+  flex: 1;
+}
+
+.symbolItemInfo p {
+  margin: 0;
+  font-size: var(--content-font-size);
+  color: var(--body-font-color);
+}
+
+.symbolItemInfo p:first-child {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.symbolItemInfo p:last-child {
+  font-size: 14px;
+  color: var(--grayLabel-font-color);
+}
+
+.subscribeButton {
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: auto;
+}
+
+.subscribeButton.subscribed {
+  background-color: var(--primary-background-color);
+  color: white;
+}
+
+.subscribeButton:not(.subscribed) {
+  background-color: var(--contentGray-background-color);
+  color: var(--body-font-color);
+}
+
+/* Flex Div */
+.flexDiv {
+  flex: 1;
+  background-color: var(--content-background-color);
+}
+
+/* Loading Container */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  color: var(--topContent-font-color);
+}
+
+/* Footer */
+.footer {
+  background-color: var(--content-background-color);
+  padding: 12px 15px;
+  font-size: 12px;
+  color: var(--grayLabel-font-color);
+  text-align: center;
+  border-top: 1px solid var(--contentGray-background-color);
+}
+
+.footer p {
+  margin: 5px 0;
+}
+
+/* Navigation Buttons */
+.navigationButtons {
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.navButton {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-family-name);
+}
+
+.navButton.secondary {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--topContent-font-color);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.navButton.danger {
+  background-color: var(--accent-background-color);
+  color: white;
+}
+
+/* Accounts Page specific */
+.accountsPage .scrollableDiv {
+  height: calc(100dvh - 150px);
+}
+
+.accountsPage .formBackground {
+  height: calc(100vh - 150px);
+  overflow-y: auto;
+}
+
+/* Material Icons */
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: inherit;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'liga';
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .authFormContainer {
+    padding: 0 15px;
+  }
+  
+  .button {
+    min-width: 200px;
+  }
+  
+  .loginButton {
+    min-width: 200px;
+  }
+}
+
+/* No focus outline for mobile */
+.nofocus {
+  outline: none;
+}
+
+/* Center class */
+.center {
+  text-align: center;
+}
+
+/* Spinner styles */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Spinner для auth page */
+.authPage .loadingContainer {
+  color: white;
+}
+
+/* Дополнительные стили для правильного отображения */
+.contentTable {
+  width: 100%;
+}
+
+.contentTable table {
+  width: 100%;
+  table-layout: auto;
+}
+
+.contentTable th,
+.contentTable td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contentTable th:first-child,
+.contentTable td:first-child {
+  max-width: 100px;
+}
+
+.contentTable th:nth-child(2),
+.contentTable td:nth-child(2) {
+  max-width: 150px;
+  white-space: normal;
+}
+
+/* Улучшения для мобильных устройств */
+@media (max-width: 768px) {
+  .contentTable {
+    font-size: 14px;
+  }
+  
+  .contentTable th,
+  .contentTable td {
+    padding: 8px 10px;
+  }
+  
+  .navigationButtons {
+    flex-direction: column;
+    gap: 5px;
+    right: 10px;
+  }
+  
+  .navButton {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
