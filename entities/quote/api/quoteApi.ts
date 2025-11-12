@@ -21,13 +21,15 @@ export function subscribeToQuotes(
     onError,
     () => {
       console.log('Quotes WebSocket connection closed');
+    },
+    () => {
+      // Отправляем команду только после открытия соединения
+      ws.send({
+        requestType: 'tickers',
+        symbols,
+      });
     }
   );
-
-  ws.send({
-    requestType: 'tickers',
-    symbols,
-  });
 
   return () => {
     ws.close();

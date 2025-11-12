@@ -32,18 +32,13 @@ export function useSubscription(token: string | null) {
   // Fetch all symbols from WebSocket
   useEffect(() => {
     if (!token) {
-      if (allSymbols.length === 0) {
-        console.warn('No token available for symbols WebSocket, loading mock symbols.');
-        setAllSymbols(MOCK_SYMBOLS);
-        const cachedSubscriptions = storage.get<string[]>(SUBSCRIPTIONS_KEY);
-        if (!cachedSubscriptions) {
-          const defaultSubscriptions = MOCK_SYMBOLS.slice(0, 5).map(s => s.Symbol);
-          setSubscribedSymbols(defaultSubscriptions);
-          storage.set(SUBSCRIPTIONS_KEY, defaultSubscriptions);
-        }
-      }
+      // Если токен отсутствует (разлогинились), очищаем состояние
+      setAllSymbols([]);
+      setSubscribedSymbols([]);
       setIsLoading(false);
-      return;
+      setError(null);
+      // Возвращаем пустую функцию cleanup - предыдущий cleanup уже вызван React'ом
+      return () => {};
     }
 
     const cleanup = fetchSymbols(
