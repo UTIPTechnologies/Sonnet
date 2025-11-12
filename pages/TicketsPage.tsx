@@ -9,7 +9,7 @@ interface TicketsPageProps {
 }
 
 const TicketsPage: React.FC<TicketsPageProps> = ({ navigateTo }) => {
-  const { logout, acsToken, login } = useAuth();
+  const { logout, woToken } = useAuth();
   const { tickets, archivedTickets, isLoading, error, fetchOpenTickets, fetchArchivedTickets, createNewTicket } = useTickets();
   const [isArchiveTab, setIsArchiveTab] = useState<boolean>(false);
   const [limit, setLimit] = useState<number>(5);
@@ -18,34 +18,17 @@ const TicketsPage: React.FC<TicketsPageProps> = ({ navigateTo }) => {
   const [messageText, setMessageText] = useState<string>('');
   const [isCreating, setIsCreating] = useState<boolean>(false);
   const [createError, setCreateError] = useState<string | null>(null);
-  const [ticketsLoginDone, setTicketsLoginDone] = useState<boolean>(false);
 
-  // Автоматический логин для работы с тикетами при первом открытии страницы
+  // Загружаем тикеты при монтировании компонента и при изменении вкладки
   useEffect(() => {
-    const performTicketsLogin = async () => {
-      if (!ticketsLoginDone) {
-        try {
-          // Логин для работы с тикетами
-          await login('vxcvvxcv@mail.ru', 'Qq123456', 'http://weboffice.apf/api/v_2/page/Login');
-          setTicketsLoginDone(true);
-        } catch (err) {
-          console.error('Failed to login for tickets:', err);
-        }
-      }
-    };
-
-    performTicketsLogin();
-  }, [login, ticketsLoginDone]);
-
-  useEffect(() => {
-    if (acsToken && ticketsLoginDone) {
+    if (woToken) {
       if (isArchiveTab) {
         fetchArchivedTickets();
       } else {
         fetchOpenTickets();
       }
     }
-  }, [acsToken, ticketsLoginDone, isArchiveTab, fetchOpenTickets, fetchArchivedTickets]);
+  }, [woToken, isArchiveTab, fetchOpenTickets, fetchArchivedTickets]);
 
   const currentTickets = isArchiveTab ? archivedTickets : tickets;
   const displayedTickets = limit > 0 ? currentTickets.slice(0, limit) : currentTickets;

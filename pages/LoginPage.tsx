@@ -15,6 +15,8 @@ const LoginPage: React.FC = () => {
     setLocalError(null);
     try {
       await login(email, password, loginEndpoint);
+      // Устанавливаем флаг для редиректа на страницу символов после успешного логина
+      localStorage.setItem('shouldRedirectToSymbols', 'true');
     } catch (err) {
       if (err instanceof Error) {
         setLocalError(err.message);

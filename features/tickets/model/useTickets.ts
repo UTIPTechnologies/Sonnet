@@ -4,25 +4,25 @@ import { getAllTickets, getTicket, createTicket, sendMessageToTicket } from '../
 import { Ticket, TicketMessage, CreateTicketRequest, SendMessageRequest } from '../../../entities/ticket/model/ticket';
 
 export function useTickets() {
-  const { acsToken, acsUserId } = useAuth();
+  const { woToken, userEmail } = useAuth();
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [archivedTickets, setArchivedTickets] = useState<Ticket[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Получить user_id из контекста аутентификации
-  const getUserId = useCallback(() => {
-    if (acsUserId) {
-      return acsUserId;
+  // Получить email из контекста аутентификации
+  const getUserEmail = useCallback(() => {
+    if (userEmail) {
+      return userEmail;
     }
-    // Fallback на заглушку, если user_id не получен
-    console.warn('acsUserId not available, using fallback');
-    return '1';
-  }, [acsUserId]);
+    // Fallback на заглушку, если email не получен
+    console.warn('userEmail not available, using fallback');
+    return 'test@test.ru';
+  }, [userEmail]);
 
   const fetchTickets = useCallback(async (resolved: number = 0) => {
-    if (!acsToken) {
-      setError('Not authenticated');
+    if (!woToken) {
+      setError('Not authenticated (woToken not available)');
       return;
     }
 
@@ -30,8 +30,8 @@ export function useTickets() {
     setError(null);
 
     try {
-      const userId = getUserId();
-      const ticketsList = await getAllTickets(acsToken, userId, resolved);
+      const email = getUserEmail();
+      const ticketsList = await getAllTickets(woToken, email, resolved);
       
       if (resolved === 0) {
         setTickets(ticketsList);
@@ -45,7 +45,7 @@ export function useTickets() {
     } finally {
       setIsLoading(false);
     }
-  }, [acsToken, getUserId]);
+  }, [woToken, getUserEmail]);
 
   const fetchOpenTickets = useCallback(() => {
     return fetchTickets(0);
@@ -56,13 +56,13 @@ export function useTickets() {
   }, [fetchTickets]);
 
   const createNewTicket = useCallback(async (data: CreateTicketRequest) => {
-    if (!acsToken) {
-      throw new Error('Not authenticated');
+    if (!woToken) {
+      throw new Error('Not authenticated (woToken not available)');
     }
 
     try {
-      const userId = getUserId();
-      const result = await createTicket(acsToken, userId, data);
+      const email = getUserEmail();
+      const result = await createTicket(woToken, email, data);
       // Обновляем список после создания
       await fetchOpenTickets();
       return result;
@@ -70,7 +70,7 @@ export function useTickets() {
       const errorMessage = err instanceof Error ? err.message : 'Failed to create ticket';
       throw new Error(errorMessage);
     }
-  }, [acsToken, getUserId, fetchOpenTickets]);
+  }, [woToken, getUserEmail, fetchOpenTickets]);
 
   return {
     tickets,
@@ -85,23 +85,23 @@ export function useTickets() {
 }
 
 export function useTicket(ticketId: number | null) {
-  const { acsToken, acsUserId } = useAuth();
+  const { woToken, userEmail } = useAuth();
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [messages, setMessages] = useState<TicketMessage[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const getUserId = useCallback(() => {
-    if (acsUserId) {
-      return acsUserId;
+  const getUserEmail = useCallback(() => {
+    if (userEmail) {
+      return userEmail;
     }
-    // Fallback на заглушку, если user_id не получен
-    console.warn('acsUserId not available, using fallback');
-    return '1';
-  }, [acsUserId]);
+    // Fallback на заглушку, если email не получен
+    console.warn('userEmail not available, using fallback');
+    return 'test@test.ru';
+  }, [userEmail]);
 
   const fetchTicket = useCallback(async () => {
-    if (!acsToken || !ticketId) {
+    if (!woToken || !ticketId) {
       return;
     }
 
@@ -109,8 +109,8 @@ export function useTicket(ticketId: number | null) {
     setError(null);
 
     try {
-      const userId = getUserId();
-      const result = await getTicket(acsToken, userId, ticketId);
+      const email = getUserEmail();
+      const result = await getTicket(woToken, email, ticketId);
       setTicket(result.ticket);
       setMessages(result.messages);
     } catch (err) {
@@ -120,23 +120,23 @@ export function useTicket(ticketId: number | null) {
     } finally {
       setIsLoading(false);
     }
-  }, [acsToken, ticketId, getUserId]);
+  }, [woToken, ticketId, getUserEmail]);
 
   const sendMessage = useCallback(async (data: SendMessageRequest) => {
-    if (!acsToken) {
-      throw new Error('Not authenticated');
+    if (!woToken) {
+      throw new Error('Not authenticated (woToken not available)');
     }
 
     try {
-      const userId = getUserId();
-      await sendMessageToTicket(acsToken, userId, data);
+      const email = getUserEmail();
+      await sendMessageToTicket(woToken, email, data);
       // Обновляем сообщения после отправки
       await fetchTicket();
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to send message';
       throw new Error(errorMessage);
     }
-  }, [acsToken, getUserId, fetchTicket]);
+  }, [woToken, getUserEmail, fetchTicket]);
 
   useEffect(() => {
     if (ticketId) {

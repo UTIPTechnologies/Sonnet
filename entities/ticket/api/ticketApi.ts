@@ -14,9 +14,9 @@ function getRequestKey(randParam: number, apiKey: string): string {
 }
 
 // Базовый URL для API (можно настроить через переменные окружения)
-// По умолчанию используем локальный weboffice: http://weboffice.apf/
-// Для использования удаленного API установите VITE_TICKETS_API_BASE в .env
-const TICKETS_API_BASE = process.env.VITE_TICKETS_API_BASE || 'http://weboffice.apf/api/v_2/';
+// По умолчанию используем https://dev-weboffice.utip.work/
+// Для использования локального API установите VITE_TICKETS_API_BASE в .env
+const TICKETS_API_BASE = process.env.VITE_TICKETS_API_BASE || 'https://dev-weboffice.utip.work/api/v_2/';
 const API_KEY = process.env.VITE_API_KEY || 'Fiugkjyu76fhjt7hbk';
 
 // Для тестирования можно использовать фиксированный auth_token через переменную окружения
@@ -24,7 +24,7 @@ const API_KEY = process.env.VITE_API_KEY || 'Fiugkjyu76fhjt7hbk';
 const TEST_AUTH_TOKEN = process.env.VITE_TEST_AUTH_TOKEN;
 
 // Формируем параметры аутентификации
-function getAuthParams(authToken: string, userId: string, apiKey: string, lang: string = 'en') {
+function getAuthParams(authToken: string, userEmail: string, apiKey: string, lang: string = 'en') {
   const randParam = getRandParam();
   // Используем тестовый токен, если он установлен, иначе используем переданный токен
   const tokenToUse = TEST_AUTH_TOKEN || authToken;
@@ -35,7 +35,7 @@ function getAuthParams(authToken: string, userId: string, apiKey: string, lang: 
     rand_param: randParam,
     languages: lang,
     auth_token: trimmedToken,
-    user_id: userId,
+    user_login: userEmail,
   };
 }
 
@@ -67,10 +67,10 @@ async function apiQuery<T>(
   url: string,
   method: 'GET' | 'POST',
   authToken: string,
-  userId: string,
+  userEmail: string,
   data?: Record<string, any>
 ): Promise<ApiResponse<T>> {
-  const authParams = getAuthParams(authToken, userId, API_KEY);
+  const authParams = getAuthParams(authToken, userEmail, API_KEY);
   const allParams = { ...authParams, ...data };
 
   const requestUrl = `${TICKETS_API_BASE}${url}`;
@@ -122,14 +122,14 @@ async function apiQuery<T>(
 // Получить все обращения
 export async function getAllTickets(
   authToken: string,
-  userId: string,
+  userEmail: string,
   resolved: number = 0
 ): Promise<Ticket[]> {
   const response = await apiQuery<string>(
     'partner/GetAllTickets',
     'GET',
     authToken,
-    userId,
+    userEmail,
     { resolved }
   );
   
@@ -148,14 +148,14 @@ export async function getAllTickets(
 // Получить одно обращение с сообщениями
 export async function getTicket(
   authToken: string,
-  userId: string,
+  userEmail: string,
   ticketId: number
 ): Promise<{ ticket: Ticket; messages: TicketMessage[] }> {
   const response = await apiQuery<any>(
     'partner/ViewTicket',
     'GET',
     authToken,
-    userId,
+    userEmail,
     { ticket_id: ticketId }
   );
   
@@ -167,7 +167,7 @@ export async function getTicket(
     message_date: 0,
     resolved: response.values.in_archive ? 1 : 0,
     in_archive: response.values.in_archive,
-    user_id: parseInt(userId),
+    user_id: 0, // user_id не используется, так как отправляем email
     closed_by: response.values.closed_by,
   };
   
@@ -197,14 +197,14 @@ export async function getTicket(
 // Создать обращение
 export async function createTicket(
   authToken: string,
-  userId: string,
+  userEmail: string,
   data: CreateTicketRequest
 ): Promise<{ ticked_id: number }> {
   const response = await apiQuery<{ ticked_id: number }>(
     'partner/CreateTicket',
     'POST',
     authToken,
-    userId,
+    userEmail,
     data
   );
   
@@ -214,14 +214,14 @@ export async function createTicket(
 // Отправить сообщение в обращение
 export async function sendMessageToTicket(
   authToken: string,
-  userId: string,
+  userEmail: string,
   data: SendMessageRequest
 ): Promise<void> {
   await apiQuery<void>(
     'partner/SendMessageToTicket',
     'POST',
     authToken,
-    userId,
+    userEmail,
     data
   );
 }

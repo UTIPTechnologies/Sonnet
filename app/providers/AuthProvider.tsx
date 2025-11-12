@@ -6,13 +6,17 @@ import md5 from 'md5';
 const TOKEN_KEY = 'acsToken';
 const TOKEN_EXPIRE_KEY = 'acsTokenExpire';
 const UTIP_TOKEN_KEY = 'utipToken';
+const WO_TOKEN_KEY = 'woToken';
 const USER_ID_KEY = 'acsUserId';
+const USER_EMAIL_KEY = 'userEmail';
 
 interface AuthContextType {
   acsToken: string | null;
   acsTokenExpire: string | null;
   utipToken: string | null;
+  woToken: string | null;
   acsUserId: string | null;
+  userEmail: string | null;
   login: (email: string, password: string, endpoint?: string) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
@@ -29,7 +33,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [acsToken, setAcsToken] = useState<string | null>(null);
   const [acsTokenExpire, setAcsTokenExpire] = useState<string | null>(null);
   const [utipToken, setUtipToken] = useState<string | null>(null);
+  const [woToken, setWoToken] = useState<string | null>(null);
   const [acsUserId, setAcsUserId] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -38,15 +44,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const storedToken = storage.getString(TOKEN_KEY);
       const storedTokenExpire = storage.getString(TOKEN_EXPIRE_KEY);
       const storedUtipToken = storage.getString(UTIP_TOKEN_KEY);
+      const storedWoToken = storage.getString(WO_TOKEN_KEY);
       const storedUserId = storage.getString(USER_ID_KEY);
+      const storedUserEmail = storage.getString(USER_EMAIL_KEY);
       if (storedToken && storedTokenExpire) {
         setAcsToken(storedToken);
         setAcsTokenExpire(storedTokenExpire);
         if (storedUtipToken) {
           setUtipToken(storedUtipToken);
         }
+        if (storedWoToken) {
+          setWoToken(storedWoToken);
+        }
         if (storedUserId) {
           setAcsUserId(storedUserId);
+        }
+        if (storedUserEmail) {
+          setUserEmail(storedUserEmail);
         }
       }
     } catch (e) {
@@ -114,6 +128,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setAcsUserId(String(userId));
             storage.setString(USER_ID_KEY, String(userId));
           }
+          
+          // Сохраняем email
+          setUserEmail(email);
+          storage.setString(USER_EMAIL_KEY, email);
         } else {
           const errorMsg = data.description || data.result || 'Authentication failed';
           throw new Error(errorMsg);
@@ -131,10 +149,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             storage.setString(UTIP_TOKEN_KEY, data.utipToken);
           }
 
+          if (data.woToken) {
+            setWoToken(data.woToken);
+            storage.setString(WO_TOKEN_KEY, data.woToken);
+          }
+
           if (data.acsUserId) {
             setAcsUserId(String(data.acsUserId));
             storage.setString(USER_ID_KEY, String(data.acsUserId));
           }
+          
+          // Сохраняем email
+          setUserEmail(email);
+          storage.setString(USER_EMAIL_KEY, email);
         } else {
           throw new Error(data.result || 'Authentication failed');
         }
@@ -155,11 +182,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setAcsToken(null);
     setAcsTokenExpire(null);
     setUtipToken(null);
+    setWoToken(null);
     setAcsUserId(null);
+    setUserEmail(null);
     storage.remove(TOKEN_KEY);
     storage.remove(TOKEN_EXPIRE_KEY);
     storage.remove(UTIP_TOKEN_KEY);
+    storage.remove(WO_TOKEN_KEY);
     storage.remove(USER_ID_KEY);
+    storage.remove(USER_EMAIL_KEY);
     storage.remove('symbols-list');
     storage.remove('subscribed-symbols');
   }, []);
@@ -168,7 +199,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     acsToken,
     acsTokenExpire,
     utipToken,
+    woToken,
     acsUserId,
+    userEmail,
     login,
     logout,
     isLoading,

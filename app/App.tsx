@@ -14,22 +14,44 @@ const AppContent: React.FC = () => {
   const { acsToken } = useAuth();
   const [page, setPage] = useState<Page>('symbols');
   const prevTokenRef = useRef<string | null>(null);
+  const isInitialMountRef = useRef<boolean>(true);
 
-  // Сбрасываем страницу на 'symbols' только при логине или разлогинивании
+  // Редирект на страницу символов при нажатии на кнопку Sign In (через флаг в localStorage)
+  // Важно: проверяем флаг только при изменении токена с null на значение (новый логин),
+  // но не при первой загрузке токена из localStorage
   useEffect(() => {
     const prevToken = prevTokenRef.current;
     const currentToken = acsToken;
 
-    // Если токен изменился (логин или разлогинивание), сбрасываем страницу
-    if (prevToken !== currentToken) {
-      if (currentToken && !prevToken) {
-        // Логин: переходим на страницу символов
+    // Пропускаем первую загрузку (когда токен загружается из localStorage)
+    if (isInitialMountRef.current) {
+      isInitialMountRef.current = false;
+      prevTokenRef.current = currentToken;
+      return;
+    }
+
+    // Проверяем флаг только при переходе от null к токену (новый логин через LoginPage)
+    if (currentToken && !prevToken) {
+      const shouldRedirect = localStorage.getItem('shouldRedirectToSymbols');
+      if (shouldRedirect === 'true') {
         setPage('symbols');
-      } else if (!currentToken && prevToken) {
+        localStorage.removeItem('shouldRedirectToSymbols');
+      }
+    }
+
+    prevTokenRef.current = currentToken;
+  }, [acsToken]);
+
+  // Редирект на страницу символов при разлогинивании
+  useEffect(() => {
+    const prevToken = prevTokenRef.current;
+    const currentToken = acsToken;
+
+    if (prevToken !== currentToken) {
+      if (!currentToken && prevToken) {
         // Разлогинивание: сбрасываем страницу
         setPage('symbols');
       }
-      prevTokenRef.current = currentToken;
     }
   }, [acsToken]);
 
