@@ -9,12 +9,17 @@ export class WebSocketClient {
   connect(
     onMessage: (data: any) => void,
     onError?: (error: Event) => void,
-    onClose?: (event: CloseEvent) => void
+    onClose?: (event: CloseEvent) => void,
+    onOpen?: () => void
   ): void {
     try {
       this.ws = new WebSocket(this.url);
 
-      this.ws.onopen = () => {};
+      this.ws.onopen = () => {
+        if (onOpen) {
+          onOpen();
+        }
+      };
 
       this.ws.onmessage = (event) => {
         try {

@@ -6,11 +6,11 @@ import { useQuotes } from '../features/quotes';
 import '../shared/styles/index.css';
 
 interface SymbolsPageProps {
-  navigateTo: (page: 'symbols' | 'settings') => void;
+  navigateTo: (page: 'symbols' | 'settings' | 'tickets') => void;
 }
 
 const SymbolsPage: React.FC<SymbolsPageProps> = ({ navigateTo }) => {
-  const { utipToken, logout, acsToken } = useAuth();
+  const { logout } = useAuth();
   const { allSymbols, subscribedSymbols, isLoading: isSymbolsLoading, error: symbolsError } = useSubscription();
   const quotes = useQuotes(subscribedSymbols);
   const [filter, setFilter] = useState('');
@@ -92,6 +92,36 @@ const SymbolsPage: React.FC<SymbolsPageProps> = ({ navigateTo }) => {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <button
+              onClick={() => navigateTo('tickets')}
+              style={{
+                padding: '6px 12px',
+                backgroundColor: 'transparent',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '4px',
+                color: '#FFFFFF',
+                fontSize: '14px',
+                fontWeight: 500,
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              Обращения
+            </button>
+            <button
               onClick={() => navigateTo('settings')}
               style={{
                 padding: '6px 12px',
@@ -122,24 +152,39 @@ const SymbolsPage: React.FC<SymbolsPageProps> = ({ navigateTo }) => {
               </svg>
               Settings
             </button>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <div style={{
-                width: '24px',
-                height: '24px',
-                backgroundColor: '#FF782E',
+            <button
+              onClick={logout}
+              aria-label="Logout"
+              style={{
+                padding: '6px 12px',
+                backgroundColor: 'transparent',
+                border: '1px solid rgba(235, 68, 68, 0.5)',
                 borderRadius: '4px',
+                color: '#EB4444',
+                fontSize: '14px',
+                fontWeight: 500,
+                cursor: 'pointer',
+                transition: 'all 0.2s',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontSize: '14px',
-                fontWeight: 'bold'
-              }}>₽</div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                <div style={{ fontSize: '16px', fontWeight: 500, color: '#FFFFFF' }}>10 000.00</div>
-                <div style={{ fontSize: '14px', color: 'rgba(167, 174, 232, 0.8)' }}>0.00</div>
-              </div>
-            </div>
+                gap: '6px'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(235, 68, 68, 0.1)';
+                e.currentTarget.style.borderColor = 'rgba(235, 68, 68, 0.7)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.borderColor = 'rgba(235, 68, 68, 0.5)';
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              Logout
+            </button>
           </div>
         </div>
 
@@ -171,7 +216,10 @@ const SymbolsPage: React.FC<SymbolsPageProps> = ({ navigateTo }) => {
           <div className="scrollableDiv" style={{ backgroundColor: 'transparent' }}>
             <div className="formBackground">
               {symbolsError && (
-                <div className="warningMessage" style={{ margin: '15px' }}>
+                <div 
+                  className={symbolsError.includes('timeout') ? 'infoMessage' : 'warningMessage'} 
+                  style={{ margin: '15px' }}
+                >
                   <p style={{ margin: 0 }}>{symbolsError}</p>
                 </div>
               )}

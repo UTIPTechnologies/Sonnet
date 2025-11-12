@@ -4,8 +4,9 @@ import { Spinner } from '../shared/ui/spinner';
 import '../shared/styles/index.css';
 
 const LoginPage: React.FC = () => {
-  const [email] = useState('test@test.ru');
-  const [password] = useState('123456Aa');
+  const [email, setEmail] = useState('test@test.ru');
+  const [password, setPassword] = useState('123456Aa');
+  const loginEndpoint = 'https://dev-virt-point.utip.work/v3/login';
   const { login, isLoading, error: authError } = useAuth();
   const [localError, setLocalError] = useState<string | null>(null);
 
@@ -13,7 +14,9 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     setLocalError(null);
     try {
-      await login(email, password);
+      await login(email, password, loginEndpoint);
+      // Устанавливаем флаг для редиректа на страницу символов после успешного логина
+      localStorage.setItem('shouldRedirectToSymbols', 'true');
     } catch (err) {
       if (err instanceof Error) {
         setLocalError(err.message);
@@ -52,9 +55,9 @@ const LoginPage: React.FC = () => {
             <div className="input-wrapper">
               <input
                 id="email"
-                type="email"
+                type="text"
                 value={email}
-                readOnly
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder=" "
                 required
               />
@@ -66,7 +69,7 @@ const LoginPage: React.FC = () => {
                 id="password"
                 type="password"
                 value={password}
-                readOnly
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder=" "
                 required
               />

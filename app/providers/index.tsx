@@ -1,4 +1,4 @@
-export { AuthProvider } from './AuthProvider';
-export { ThemeProvider } from './ThemeProvider';
-export { SubscriptionProvider } from './SubscriptionProvider';
+export { AuthProvider, useAuth } from './AuthProvider';
+export { ThemeProvider, useTheme } from './ThemeProvider';
+export { SubscriptionProvider, useSubscription } from './SubscriptionProvider';
 

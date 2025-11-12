@@ -2,6 +2,7 @@ export interface AuthResponse {
   acsToken: string;
   acsTokenExpire: string;
   utipToken?: string;
+  woToken?: string;
   acsUserId: number;
   result: string;
 }

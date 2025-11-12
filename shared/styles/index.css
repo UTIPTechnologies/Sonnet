@@ -2,43 +2,85 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap');
 
-/* Цветовая схема default - точные значения из theme_default.less */
+/* Цветовая схема - светлая тема (по умолчанию) */
 :root {
   --font-family-name: 'Roboto', Sans-Serif;
-  --body-background-color-from: #563A7F;
-  --body-background-color-to: #3F499D;
+  --body-background-color-from: #E8E8F0;
+  --body-background-color-to: #D0D0E0;
   --body-font: 15px var(--font-family-name);
-  --body-font-color: #000000;
+  --body-font-color: #1a1a1a;
   --button-background-color: #5dba40;
-  --tab-background-color: #5F62A7;
-  --button-border-color: #8B7DAC;
+  --tab-background-color: #6B7FD7;
+  --button-border-color: #B0B0C0;
   --defaultInput-width: 184px;
-  --defaultInput-font-color: #FFFFFF;
-  --defaultInput-border: solid 1px #E4E2E7;
+  --defaultInput-font-color: #1a1a1a;
+  --defaultInput-border: solid 1px #B0B0C0;
   --defaultInput-font-size: 17px;
-  --mdInputContainer-font-color: #A7AEE8;
+  --mdInputContainer-font-color: #5F62A7;
   --wrapper-background-color: #FFFFFF;
-  --header-font-color: #c2c3ce;
-  --block-font-color: #000000;
+  --header-font-color: #4a4a5a;
+  --block-font-color: #1a1a1a;
   --block-font-size: 15px;
   --block-a-font-color: #277dd3;
   --content-font-size: 15px;
   --content-background-color: #FFFFFF;
-  --topContent-font-color: #FFFFFF;
-  --label-font-color: #A7AEE8;
-  --grayLabel-font-color: #8c8c8c;
+  --topContent-font-color: #1a1a1a;
+  --label-font-color: #5F62A7;
+  --grayLabel-font-color: #6c6c7c;
   --bigValue-font-size: 25px;
   --menuButton-font-color: #277dd3;
   --youMessage-font-color: #FF782E;
-  --otherMessage-background-color: #EBECEE;
+  --otherMessage-background-color: #F0F0F0;
   --title-font-size: 18px;
   --message-font-size: 14px;
-  --message-background-color: #5F62A7;
+  --message-background-color: #6B7FD7;
   --message-font-color: #FFFFFF;
-  --contentGray-background-color: rgba(192,184,184,.5);
+  --contentGray-background-color: rgba(200, 200, 200, 0.3);
   --default-button-background-color: #FF782E;
   --checkbox-checked-background-color: #FF782E;
   --invalid-color: #FF0000;
+  --button-background-disabled: #C0C0C0;
+  --button-color-disabled: #808080;
+  --inDeep-color: #6E6E6E;
+  --svg-background-color: #5F62A7;
+  --statusContainer-background-color-from: #7B8FE8;
+  --statusContainer-background-color-to: #6B7FD7;
+  --statusContainer-box-shadow-color: #5A6BC6;
+  --statusLine-background: #8B9FF8;
+  --label-font-size: 16px;
+  --input-font-size: 16px;
+  --partition-title-font-color: #6c6c7c;
+  --accent-background-color: #eb4444;
+  --warning-background-color: #FFA000;
+  --primary-background-color: #5dba40;
+  --info-background-color: #00bcd4;
+  --general-menu-primary-color: #5F62A7;
+  --general-menu-close-button-color: #6c6c7c;
+  --general-menu-divider-color: rgba(95, 98, 167, 0.2);
+  --verification-status-gray: #8D91AE;
+  --content-font-color-gray: #707077;
+  --red-color: #ff4747;
+  --ticket-color-1: #4a4a5a;
+  --logoColor: #7B5FCF;
+}
+
+/* Темная тема */
+:root.dark {
+  --body-background-color-from: #563A7F;
+  --body-background-color-to: #3F499D;
+  --body-font-color: #FFFFFF;
+  --tab-background-color: #5F62A7;
+  --button-border-color: #8B7DAC;
+  --defaultInput-font-color: #FFFFFF;
+  --defaultInput-border: solid 1px #E4E2E7;
+  --mdInputContainer-font-color: #A7AEE8;
+  --header-font-color: #c2c3ce;
+  --block-font-color: #FFFFFF;
+  --topContent-font-color: #FFFFFF;
+  --label-font-color: #A7AEE8;
+  --grayLabel-font-color: #8c8c8c;
+  --message-background-color: #5F62A7;
+  --contentGray-background-color: rgba(192,184,184,.5);
   --button-background-disabled: #A45D5F;
   --button-color-disabled: #A4A0C7;
   --inDeep-color: #9E9E9E;
@@ -47,19 +89,12 @@
   --statusContainer-background-color-to: #525ba7;
   --statusContainer-box-shadow-color: #494579;
   --statusLine-background: #7476c5;
-  --label-font-size: 16px;
-  --input-font-size: 16px;
   --partition-title-font-color: #C2C2C2;
-  --accent-background-color: #eb4444;
-  --warning-background-color: #FFA000;
-  --primary-background-color: #5dba40;
-  --info-background-color: #00bcd4;
   --general-menu-primary-color: #A7AEE8;
   --general-menu-close-button-color: #717989;
   --general-menu-divider-color: rgba(167, 174, 232, 0.3);
   --verification-status-gray: #ADB1BE;
   --content-font-color-gray: #909297;
-  --red-color: #ff4747;
   --ticket-color-1: #374254;
   --logoColor: #CFB2FF;
 }
@@ -69,11 +104,14 @@ html, body {
   -webkit-text-size-adjust: none;
   margin: 0;
   padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
   font: var(--body-font);
   color: var(--body-font-color);
+  background: linear-gradient(var(--body-background-color-from), var(--body-background-color-to));
+  transition: background 0.3s ease;
 }
 
 .bodyBackgroundGradient {
@@ -214,11 +252,14 @@ body {
   padding-left: 0;
   font-size: 15px;
   top: -23px;
+  left: 50%;
+  transform: translateX(-50%);
   letter-spacing: 0.3px;
   color: var(--mdInputContainer-font-color);
   position: absolute;
   pointer-events: none;
   transition: all 0.3s;
+  text-align: center;
 }
 
 .authFormContainer .input-wrapper input {
@@ -240,8 +281,11 @@ body {
 .authFormContainer .input-wrapper input:focus + label,
 .authFormContainer .input-wrapper input:not(:placeholder-shown) + label {
   top: -23px;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 12px;
   color: var(--mdInputContainer-font-color);
+  text-align: center;
 }
 
 .authFormContainer .input-wrapper input::placeholder {
@@ -368,6 +412,7 @@ body {
   border-bottom: 1px solid var(--general-menu-divider-color);
   margin: 0;
   font-weight: 500;
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Scrollable Div */
@@ -445,9 +490,19 @@ body {
 
 /* Global Row Setting */
 .globalRowSetting {
-  color: var(--body-font-color);
-  background-color: var(--content-background-color);
+  color: var(--topContent-font-color);
+  background-color: rgba(255, 255, 255, 0.1);
   font-size: var(--label-font-size);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+:root.dark .globalRowSetting {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+:root:not(.dark) .globalRowSetting {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: var(--body-font-color);
 }
 
 .rowSetting {
@@ -457,11 +512,17 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--content-background-color);
+  background-color: transparent;
   position: relative;
+  color: var(--topContent-font-color);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .rowSetting:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+:root:not(.dark) .rowSetting:hover {
   background-color: rgba(0, 0, 0, 0.02);
 }
 
@@ -675,12 +736,31 @@ body {
   font-size: 14px;
 }
 
+.infoMessage {
+  background-color: rgba(0, 188, 212, 0.1);
+  border: 1px solid var(--info-background-color);
+  color: var(--info-background-color);
+  padding: 12px;
+  border-radius: 4px;
+  margin: 15px 20px;
+  font-size: 14px;
+}
+
 /* Settings Container */
 .settingsContainer {
-  background-color: var(--content-background-color);
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
   padding: 0;
   margin: 0;
+  transition: background-color 0.3s ease;
+}
+
+:root.dark .settingsContainer {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+:root:not(.dark) .settingsContainer {
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .settingsSection {
@@ -692,7 +772,8 @@ body {
   font-weight: 500;
   margin: 0;
   padding: 20px 20px 10px;
-  color: var(--body-font-color);
+  color: var(--topContent-font-color);
+  transition: color 0.3s ease;
 }
 
 .symbolList {
@@ -706,9 +787,15 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  background-color: rgba(0, 0, 0, 0.02);
+  background-color: rgba(255, 255, 255, 0.05);
   border-radius: 4px;
   margin-bottom: 10px;
+  border-bottom: 1px solid var(--general-menu-divider-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+:root:not(.dark) .symbolItem {
+  background-color: rgba(0, 0, 0, 0.02);
 }
 
 .symbolItemInfo {
@@ -718,7 +805,13 @@ body {
 .symbolItemInfo p {
   margin: 0;
   font-size: var(--content-font-size);
-  color: var(--body-font-color);
+  color: var(--topContent-font-color);
+  transition: color 0.3s ease;
+}
+
+.symbolItemInfo p:last-child {
+  color: var(--label-font-color);
+  opacity: 0.8;
 }
 
 .symbolItemInfo p:first-child {
